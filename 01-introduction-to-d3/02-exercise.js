@@ -1,8 +1,5 @@
 /* global d3 */
 (function () {
-  /*
-  * f
-  * */
   var b = d3.select('body')
 
   b.append('h1')
