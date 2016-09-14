@@ -60,17 +60,24 @@
       .attr('cx', function (d) {
         return d.x
       })
-      .attr('cy', function (d) {
-        return d.y
-      })
-      .attr('r', function (d) {
-        return d.r
-      })
+      .attr('cy', -30)
+      .attr('r', 3)
       .attr('fill', function () {
         var r = parseInt(Math.random() * 255)
         var g = parseInt(Math.random() * 255)
         var b = parseInt(Math.random() * 255)
 
         return 'rgb(' + r + ',' + g + ',' + b + ')'
+      })
+    .transition()
+      .delay(function (d, i) {
+        return i * 25
+      })
+      .duration(750)
+      .attr('cy', function (d) {
+        return d.y
+      })
+      .attr('r', function (d) {
+        return d.r
       })
 }())
