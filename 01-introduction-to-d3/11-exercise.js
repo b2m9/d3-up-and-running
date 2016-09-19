@@ -92,7 +92,7 @@
       set.push({
         x: Math.floor(Math.random() * maxX),
         y: Math.floor(Math.random() * maxY),
-        r: Math.floor(Math.random() * maxR)
+        r: Math.floor(Math.random() * maxR) + 1
       })
     }
 
