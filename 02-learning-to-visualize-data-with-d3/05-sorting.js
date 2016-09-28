@@ -144,28 +144,34 @@
       .attr('transform', 'rotate(-45)')
   }
 
+  // TODO: only reacts to enter not update
   function plotLabels (labels, dimensions, offset) {
-    this.select('.y.axis')
-      .append('text')
-      .attr('x', 0)
-      .attr('y', 0)
-      .style('text-anchor', 'middle')
-      .style('fill', '#000')
-      .attr('transform', 'translate(' + -offset.left * 0.67 + ',' +
-        dimensions.h / 2 + ') rotate(-90)')
-      .text(labels.y)
+    this.select('.y.axis').selectAll('text.label').data([labels.y])
+      .enter()
+        .append('text')
+        .attr('class', 'label')
+        .attr('x', 0)
+        .attr('y', 0)
+        .style('text-anchor', 'middle')
+        .style('fill', '#000')
+        .attr('transform', 'translate(' + -offset.left * 0.67 + ',' +
+          dimensions.h / 2 + ') rotate(-90)')
+        .text(labels.y)
 
-    this.select('.x.axis')
-      .append('text')
-      .attr('x', 0)
-      .attr('y', 0)
-      .style('text-anchor', 'middle')
-      .style('fill', '#000')
-      .attr('transform', 'translate(' + dimensions.w / 2 + ',' +
-        offset.bottom * 0.75 + ')')
-      .text(labels.x)
+    this.select('.x.axis').selectAll('text.label').data([labels.x])
+      .enter()
+        .append('text')
+        .attr('class', 'label')
+        .attr('x', 0)
+        .attr('y', 0)
+        .style('text-anchor', 'middle')
+        .style('fill', '#000')
+        .attr('transform', 'translate(' + dimensions.w / 2 + ',' +
+          offset.bottom * 0.75 + ')')
+        .text(function (d) { return d })
   }
 
+  // TODO: too much repetition
   function plotChart (scales, dimensions) {
     this.transition()
       .duration(750)
@@ -205,6 +211,7 @@
       })
   }
 
+  // TODO: too much repetition
   function plotChartLabels (scales) {
     this.transition()
       .duration(750)
@@ -245,12 +252,22 @@
       })
   }
 
+  // TODO: too verbose; using same params again
   function sortChart () {
-    data.sort(function (a, b) {
-      return a.value - b.value
-    })
+    // Ascending or descending data
+    if (this.dataset.status >= 0) {
+      this.dataset.status = -1
+      data.sort(function (a, b) {
+        return a.value - b.value
+      })
+    } else {
+      this.dataset.status = 1
+      data.sort(function (a, b) {
+        return b.value - a.value
+      })
+    }
 
-    plot.call(svg, data.sort(), {
+    plot.call(svg, data, {
       w: w,
       h: h
     }, {
