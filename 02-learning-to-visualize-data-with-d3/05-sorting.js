@@ -91,7 +91,7 @@
       .data(dataset), {
         x: scaleX,
         y: scaleY
-      })
+      }, dim)
   }
 
   function calcXScale (data, dimensions) {
@@ -171,85 +171,53 @@
         .text(function (d) { return d })
   }
 
-  // TODO: too much repetition
-  function plotChart (scales, dimensions) {
-    this.transition()
-      .duration(750)
-      .attr('x', function (d) {
-        return scales.x(d.key) + 1
-      })
-      .attr('y', function (d) {
-        return scales.y(d.value)
-      })
-      .attr('width', function () {
-        return scales.x.bandwidth() - 1
-      })
-      .attr('height', function (d) {
-        return dimensions.h - scales.y(d.value)
-      })
-      .style('fill', function (d, i) {
-        return scales.c(i)
-      })
-
+  function plotChart (scales, dim) {
     // Enter columns
     this.enter().append('rect')
       .attr('class', 'bar')
-      .attr('x', function (d) {
-        return scales.x(d.key) + 1
+      .attr('x', function (d) { return scales.x(d.key) + 1 })
+      .attr('y', dim.h)
+      .attr('width', function () { return scales.x.bandwidth() - 1 })
+      .style('fill', 'transparent')
+      .on('mouseover', function () {
+        d3.select(this).transition().duration(100)
+          .style('fill', d3.color(this.style.fill).brighter(0.5))
       })
-      .attr('y', function (d) {
-        return scales.y(d.value)
+      .on('mouseout', function (d, i) {
+        d3.select(this).transition().duration(100)
+          .style('fill', scales.c(i))
       })
-      .attr('width', function () {
-        return scales.x.bandwidth() - 1
-      })
-      .attr('height', function (d) {
-        return dimensions.h - scales.y(d.value)
-      })
-      .style('fill', function (d, i) {
-        return scales.c(i)
-      })
+      .transition().duration(750)
+        .attr('y', function (d) { return scales.y(d.value) })
+        .attr('height', function (d) { return dim.h - scales.y(d.value) })
+        .style('fill', function (d, i) { return scales.c(i) })
+
+    // Update
+    this.transition().duration(750)
+      .attr('x', function (d) { return scales.x(d.key) + 1 })
+      .attr('y', function (d) { return scales.y(d.value) })
+      .attr('height', function (d) { return dim.h - scales.y(d.value) })
   }
 
-  // TODO: too much repetition
-  function plotChartLabels (scales) {
-    this.transition()
-      .duration(750)
-      .attr('class', 'bar-label')
-      .attr('x', function (d) {
-        return scales.x(d.key)
-      })
-      .attr('dx', function () {
-        return scales.x.bandwidth() / 2
-      })
-      .attr('y', function (d) {
-        return scales.y(d.value)
-      })
-      .attr('dy', function () {
-        return -3
-      })
-      .text(function (d) {
-        return d.value
-      })
-
-    // Enter text
+  function plotChartLabels (scales, dim) {
+    // Enter labels
     this.enter().append('text')
       .attr('class', 'bar-label')
-      .attr('x', function (d) {
-        return scales.x(d.key)
-      })
-      .attr('dx', function () {
-        return scales.x.bandwidth() / 2
-      })
-      .attr('y', function (d) {
-        return scales.y(d.value)
-      })
-      .attr('dy', function () {
-        return -3
-      })
-      .text(function (d) {
-        return d.value
-      })
+      .attr('x', function (d) { return scales.x(d.key) })
+      .attr('dx', function () { return scales.x.bandwidth() / 2 })
+      .attr('y', dim.h)
+      .attr('dy', function () { return -3 })
+      .attr('opacity', 0)
+      .text(function (d) { return d.value })
+      .transition().duration(750)
+        .attr('y', function (d) { return scales.y(d.value) })
+        .attr('opacity', 1)
+
+    // Update labels
+    this.transition().duration(750)
+      .attr('x', function (d) { return scales.x(d.key) })
+      .attr('y', function (d) { return scales.y(d.value) })
+      .text(function (d) { return d.value })
   }
 
   // TODO: too verbose; using same params again
