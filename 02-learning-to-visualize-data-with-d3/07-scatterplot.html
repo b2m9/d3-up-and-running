@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Learning to visualize data with d3.js</title>
+    <script src="node_modules/d3/build/d3.js"></script>
+    <style>
+        svg {
+            border: 1px solid #aaa
+        }
+
+        .glazed {
+            fill: #66c2a5;
+        }
+
+        .jelly {
+            fill: #fc8d62;
+        }
+
+        .powdered {
+            fill: #8da0cb;
+        }
+
+        .sprinkles {
+            fill: #e78ac3;
+        }
+
+        .point {
+            opacity: 0.4;
+        }
+
+        .active {
+            opacity: 1;
+        }
+
+        .grid > path, .grid line{
+            stroke: #ccc;
+        }
+
+        .line {
+            fill: none;
+            stroke: #0074D9;
+            stroke-width: 1px;
+            stroke-dasharray: 10, 5;
+        }
+
+        .area {
+            fill: #39CCCC;
+            opacity: 0.3;
+        }
+    </style>
+</head>
+<body>
+    <div id="svg-container"></div>
+    <script src="07-scatterplot.js"></script>
+</body>
+</html>
