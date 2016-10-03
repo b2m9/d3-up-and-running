@@ -120,19 +120,25 @@
       .attr('class', 'point-label')
       .classed('hidden', !showLabels)
       .attr('x', function (d) { return scaleX(d.x) })
-      .attr('y', function (d) { return scaleY(d.y) })
+      .attr('y', function (d) { return scaleY(d.y) - 5 })
+      .attr('fill', function (d) { return d.color })
       .text(function (d) { return d.name })
 
     // Update
-    ctx.select('circle').transition().duration(750)
-      .attr('cx', function (d) { return scaleX(d.x) })
-      .attr('cy', function (d) { return scaleY(d.y) })
+    ctx.select('circle')
+      .transition().duration(750)
+        .attr('cx', function (d) { return scaleX(d.x) })
+      .transition().duration(750)
+        .attr('cy', function (d) { return scaleY(d.y) })
 
     ctx.select('text')
-      .attr('x', function (d) { return scaleX(d.x) })
-      .attr('y', function (d) { return scaleY(d.y) })
       .classed('hidden', !showLabels)
       .text(function (d) { return d.name })
+      .attr('fill', function (d) { return d.color })
+      .transition().duration(750)
+        .attr('x', function (d) { return scaleX(d.x) })
+      .transition().duration(750)
+        .attr('y', function (d) { return scaleY(d.y) - 5 })
 
     // Exit
     ctx.exit().transition().duration(750)
