@@ -111,14 +111,25 @@
       .range(['#f6eff7', '#d0d1e6', '#a6bddb', '#67a9cf', '#3690c0',
         '#02818a', '#016450'])
 
-    var keys = map.legend.selectAll('.key').data(color.range())
-      .enter().append('li')
-        .attr('class', 'key')
-        .style('border-left-color', function (d) { return d })
+    var keys = d3.select('ul').selectAll('li')
+      .data(color.range().map(function (val) {
+        return {
+          color: val,
+          val: color.invertExtent(val)
+        }
+      }))
+
+    keys.enter().append('li')
+      .attr('class', 'key')
+      .style('border-left-color', function (d) { return d.color })
+      .text(function (d) {
+        return d3.format('$,.0f')(d.val[0]) + ' - ' +
+          d3.format('$,.0f')(d.val[1])
+      })
 
     keys.text(function (d) {
-      var r = color.invertExtent(d)
-      return d3.format('$,.0f')(r[0]) + ' - ' + d3.format('$,.0f')(r[1])
+      return d3.format('$,.0f')(d.val[0]) + ' - ' +
+        d3.format('$,.0f')(d.val[1])
     })
 
     paths.enter().insert('path', '.country')
