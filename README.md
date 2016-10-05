@@ -6,3 +6,4 @@
 2. [Learning to Visualize Data with D3.js](https://www.safaribooksonline.com/library/view/learning-to-visualize/9781771373043/)
 3. [Building Interactive Data Visualizations with D3.js](https://www.safaribooksonline.com/library/view/building-interactive-data/9781783283736/)
 4. [D3 Visualization LiveLessons](https://www.safaribooksonline.com/library/view/d3-visualization-livelessons/9780134087153/)
+5. [Interactive Data Visualization with D3.js](https://www.safaribooksonline.com/library/view/interactive-data-visualization/9781457197765/)

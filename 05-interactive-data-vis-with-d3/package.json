@@ -1,0 +1,17 @@
+{
+  "name": "05-interactive-data-vis-with-d3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "d3": "^4.2.2"
+  },
+  "devDependencies": {
+    "standard": "^8.0.0"
+  }
+}
