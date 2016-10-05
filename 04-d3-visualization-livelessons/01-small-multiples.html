@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>D3 Visualization LiveLessons</title>
+    <script src="node_modules/d3/build/d3.js"></script>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            font-family: -apple-system, BlinkMacSystemFont,
+                "Segoe UI", "Roboto", "Oxygen",
+                "Ubuntu", "Cantarell", "Fira Sans",
+                "Droid Sans", "Helvetica Neue", sans-serif;
+        }
+
+        body {
+            padding: 0.5em;
+        }
+
+        #svg-container {
+            width: 960px;
+            margin: 0 auto;
+        }
+
+        .container {
+          float: left;
+          margin-right: 10px;
+          width: 120px;
+          height: 100px;
+        }
+
+        .line {
+          fill: none;
+          stroke: steelblue;
+          stroke-width: 2px;
+        }
+
+        text {
+            pointer-events: none;
+            font-size: 10px;
+            text-anchor: middle;
+        }
+
+        .country-labels {
+          font-size:11px;
+        }
+
+        .containers {
+          float: left;
+          margin-right: 10px;
+          width: 120px;
+          height: 100px;
+        }
+
+        .axis path, .axis line {
+          fill: none;
+          stroke: #999;
+          shape-rendering: crispEdges;
+        }
+
+        .axis text {
+          fill: #999;
+          font-size: 10px;
+        }
+
+        .y.axis path {
+          display: none;
+        }
+
+        .line {
+          fill: none;
+          stroke: darkmagenta;
+          stroke-width: 2.5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="svg-container"></div>
+    <script src="01-small-multiples.js"></script>
+</body>
+</html>
