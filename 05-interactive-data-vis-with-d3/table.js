@@ -42,7 +42,7 @@
       .text(function (d) { return d.data.num_comments })
     cells.append('td')
       .attr('class', 'td-date')
-      .text(function (d) { return rv.timeFormat(d.data.created_utc + '000') })
+      .text(function (d) { return rv.timeFormat(d.data.created_utc) })
   }
 
   // Create hard-coded table head
