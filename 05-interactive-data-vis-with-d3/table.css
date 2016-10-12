@@ -1,0 +1,50 @@
+table {
+    font-size: 0.9em;
+    border-collapse: collapse;
+}
+
+tr.header {
+    height: 30px;
+    border-bottom: 1px solid #ccc;
+}
+
+table .reddit-self {
+    background-image: url(https://www.redditstatic.com/sprite-reddit.wYiMyaUA1gU.png);
+    background-position: 0px -375px;
+    background-repeat: no-repeat;
+    background-size: 70px 734px;
+}
+
+table img {
+    max-width: 50px;
+    max-height: 50px;
+}
+
+td {
+    padding: 3px 2px;
+}
+
+.td-score {
+    width: 100px;
+    text-align: center;
+}
+
+.td-img {
+    width: 65px;
+    height: 50px;
+    text-align: center;
+}
+
+.td-link {
+
+}
+
+.td-comments {
+    width: 100px;
+    text-align: center;
+}
+
+.td-date {
+    width: 100px;
+    text-align: center;
+}
