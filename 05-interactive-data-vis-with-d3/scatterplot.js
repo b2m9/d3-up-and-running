@@ -7,7 +7,7 @@
 
   // Dimensions
   splot.dim = {
-    w: 500,
+    w: 550,
     h: 300
   }
   splot.offset = {
@@ -91,16 +91,18 @@
 
     svg.append('g')
       .attr('class', 'x axis')
-      .attr('transform', 'translate(' + offset.left + ',' +
+      .attr('transform', 'translate(' + (offset.left + 3) + ',' +
         (dim.h - offset.bottom) + ')')
 
     svg.append('g')
       .attr('class', 'y axis')
-      .attr('transform', 'translate(' + offset.left + ',' + offset.top + ')')
+      .attr('transform', 'translate(' + (offset.left - 3) + ',' +
+        offset.top + ')')
 
     svg.append('g')
       .attr('class', 'chart')
-      .attr('transform', 'translate(' + offset.left + ',' + offset.top + ')')
+      .attr('transform', 'translate(' + (offset.left + 3) + ',' +
+        offset.top + ')')
 
     return svg
   }

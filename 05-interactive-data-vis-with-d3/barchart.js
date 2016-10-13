@@ -7,11 +7,11 @@
 
   // Dimensions
   bar.dim = {
-    w: 458,
+    w: 408,
     h: 300
   }
   bar.offset = {
-    left: 40,
+    left: 10,
     top: 10,
     right: 10,
     bottom: 40
@@ -31,8 +31,6 @@
     var scaleX = this.calcXScale(bins, this.dim, this.offset)
     var scaleY = this.calcYScale(bins, this.dim, this.offset)
 
-    // debugger
-
     this.plotAxes.call(container.select('.barchart'), scaleX)
     this.plotChart.call(container.select('.barchart .chart'), bins, scaleX,
       scaleY)
@@ -45,6 +43,7 @@
     rects.enter().append('rect')
       .attr('class', 'bar-rect')
       .attr('x', 0)
+      .attr('fill', '')
       .attr('y', function (d, i) { return scaleY(i) })
       .attr('height', scaleY.bandwidth())
       .attr('width', 0)
@@ -80,6 +79,8 @@
   bar.calcYScale = function (data, dim, offset) {
     return d3.scaleBand().domain(d3.range(data.length))
       .rangeRound([dim.h - offset.top - offset.bottom, 0])
+      .paddingInner(0.05)
+      .paddingOuter(0.05)
   }
 
   // Create SVG groups
@@ -94,10 +95,6 @@
       .attr('class', 'x axis')
       .attr('transform', 'translate(' + offset.left + ',' +
         (dim.h - offset.bottom) + ')')
-
-    svg.append('g')
-      .attr('class', 'y axis')
-      .attr('transform', 'translate(' + offset.left + ',' + offset.top + ')')
 
     svg.append('g')
       .attr('class', 'chart')
