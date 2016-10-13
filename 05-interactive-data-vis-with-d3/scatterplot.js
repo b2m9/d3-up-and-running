@@ -27,7 +27,8 @@
     var scaleY = this.calcYScale(data, this.dim, this.offset)
 
     this.plotAxes.call(container.select('.scatterplot'), scaleX, scaleY)
-    this.plotChart.call(container.select('.scatterplot .chart'), data, scaleX, scaleY)
+    this.plotChart.call(container.select('.scatterplot .chart'), data, scaleX,
+      scaleY)
   }
 
   splot.plotChart = function (data, scaleX, scaleY) {

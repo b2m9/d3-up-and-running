@@ -36,6 +36,7 @@
   rv.plot = function () {
     // Plot table
     this.scatterplot.plot(this.container, this.data)
+    this.barchart.plot(this.container, this.data)
     this.table.plot(this.container, this.data)
   }
 }())
