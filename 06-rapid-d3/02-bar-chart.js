@@ -42,16 +42,43 @@
   function plotChart (ctx, data, x, y, middle) {
     var matches = ctx.selectAll('g').data(data)
 
-    // Enter
     var match = matches.enter().append('g')
       .attr('class', 'match')
 
     match.append('rect')
       .attr('class', 'scored')
       .attr('x', function (d, i) { return x(i) })
-      .attr('y', function (d) { return y(d['GoalsScored']) })
-      .attr('height', function (d) { return middle - y(d['GoalsScored']) })
+      .attr('y', middle)
+      .attr('height', 0)
       .attr('width', x.bandwidth())
+      .transition()
+        .delay(function (d, i) { return 25 * i })
+        .duration(750)
+        .attr('y', function (d) { return y(d['GoalsScored']) })
+        .attr('height', function (d) { return middle - y(d['GoalsScored']) })
+
+    match.append('rect')
+      .attr('class', 'allowed')
+      .attr('x', function (d, i) { return x(i) })
+      .attr('y', middle + 1)
+      .attr('height', 0)
+      .attr('width', x.bandwidth())
+      .transition()
+          .delay(function (d, i) { return 25 * i })
+          .duration(750)
+          .attr('height', function (d) { return middle - y(d['GoalsAllowed']) })
+
+    match.append('circle')
+      .attr('class', 'result')
+      .attr('cx', function (d, i) { return x(i) + (x.bandwidth() / 2) })
+      .attr('cy', middle)
+      .attr('r', 3)
+      .attr('opacity', 0)
+      .transition()
+        .delay(function (d, i) { return 25 * i })
+        .duration(750)
+        .attr('cy', function (d) { return y(d['GoalsScored'] - d['GoalsAllowed']) })
+        .attr('opacity', 1)
   }
 
   function plotAxes (ctx, x, y) {
@@ -81,7 +108,7 @@
   }
 
   function init (dim, offset) {
-    d3.select('body').append('h1').text('ACF Wimbledon Results')
+    d3.select('body').append('h1').text('AFC Wimbledon Results')
     d3.select('body').append('div').attr('class', 'wrapper')
 
     var svg = d3.select('.wrapper').append('svg')
@@ -91,13 +118,13 @@
       .attr('height', dim.h)
 
     svg.append('g')
+      .attr('class', 'y axis')
+      .attr('transform', 'translate(' + offset.left + ',' + offset.top + ')')
+
+    svg.append('g')
       .attr('class', 'x axis')
       .attr('transform', 'translate(' + offset.left + ',' +
         (offset.top + (dim.h - offset.top - offset.bottom) / 2) + ')')
-
-    svg.append('g')
-      .attr('class', 'y axis')
-      .attr('transform', 'translate(' + offset.left + ',' + offset.top + ')')
 
     svg.append('g')
       .attr('class', 'chart')
