@@ -23,7 +23,9 @@
   d3.json(path, function (err, res) {
     if (err) throw err
 
-    data = res
+    data = prepareData(res)
+
+    debugger
     plot(svg, data, dim, offset)
   })
 
@@ -49,6 +51,75 @@
 
   function calcYScale (data, dim, offset) {
 
+  }
+
+  function prepareData (data) {
+    var map = d3.map()
+
+    // Merge all matches into one big array
+    data = d3.merge(data.map(function (dates) {
+      // Add each date into respective array of matches
+      dates['Games'].forEach(function (matches) {
+        matches['Date'] = dates['Date']
+      })
+
+      return dates['Games']
+    }))
+
+    // Group by teams; away and home
+    d3.merge([
+      d3.nest().key(function (d) { return d['Away'] }).entries(data),
+      d3.nest().key(function (d) { return d['Home'] }).entries(data)
+    ]).forEach(function (d) {
+      // If team already exists in map...
+      if (map.has(d['key'])) {
+        // ...merge and sort by date
+        map.set(d['key'], d3.merge([ map.get(d['key']), d.values ])
+          .sort(function (a, b) { return d3.ascending(a['Date'], b['Date']) }))
+      } else {
+        // Set team with name as key in map if it doesn't exist
+        map.set(d['key'], d.values)
+      }
+    })
+
+    // We still need the accumulated points for each team after each match...
+    map.entries().forEach(function (d) {
+      var matches = []
+      var key = d['key']
+      var values = d['value']
+
+      // Calculate match outcome and construct our final object
+      values.forEach(function (match) {
+        matches.push(calcMatchOutcome(key, match, matches))
+      })
+
+      // Replace the corresponding values
+      map.set(key, matches)
+    })
+
+    return map
+  }
+
+  function calcMatchOutcome (team, match, matches) {
+    var isAway = (match['Away'] === team)
+    var scored = (isAway) ? +match['AwayScore'] : +match['HomeScore']
+    var allowed = (isAway) ? +match['HomeScore'] : +match['AwayScore']
+    var pts = (scored > allowed) ? 3 : (scored < allowed) ? 0 : 1
+    var decision = (pts === 3) ? 'win' : (pts === 0) ? 'loss' : 'draw'
+
+    // ...and finally compile our final beautiful object
+    return {
+      date: d3.timeParse('%Y-%m-%d')(match['Date']),
+      team: team,
+      align: (isAway) ? 'away' : 'home',
+      opponent: (isAway) ? match['Home'] : match['Away'],
+      scored: scored,
+      allowed: allowed,
+      venue: match['Venue'],
+      decision: decision,
+      points: pts,
+      leaguePoints: d3.sum(matches, function (d) { return d['points'] }) + pts
+    }
   }
 
   function init (dim, offset) {
