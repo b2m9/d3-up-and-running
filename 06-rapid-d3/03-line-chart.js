@@ -6,14 +6,14 @@
 
   // Dimensions
   var dim = {
-    w: 700,
-    h: 350
+    w: 800,
+    h: 550
   }
   var offset = {
     left: 50,
     top: 20,
     right: 20,
-    bottom: 20
+    bottom: 50
   }
 
   var svg = init(dim, offset)
@@ -25,7 +25,6 @@
 
     data = prepareData(res)
 
-    debugger
     plot(svg, data, dim, offset)
   })
 
@@ -33,24 +32,75 @@
     var scaleX = calcXScale(data, dim, offset)
     var scaleY = calcYScale(data, dim, offset)
 
+    // We need 24 distinct colours for our league
+    var c24 = d3.schemeCategory20
+    c24.push(d3.schemeCategory20b[0])
+    c24.push(d3.schemeCategory20b[3])
+    c24.push(d3.schemeCategory20b[4])
+    c24.push(d3.schemeCategory20b[7])
+
     plotAxes(ctx, scaleX, scaleY)
-    plotChart(ctx.select('.chart'), data, scaleX, scaleY)
+    plotChart(ctx.select('.chart'), data, scaleX, scaleY, c24)
   }
 
-  function plotChart (ctx, data, x, y) {
+  function plotChart (ctx, data, x, y, c) {
+    var line = d3.line()
+      .x(function (d) { return x(d['date']) })
+      .y(function (d) { return y(d['leaguePoints']) })
+      .curve(d3.curveStepAfter)
 
+    var lines = ctx.selectAll('.lines').data(data).enter()
+      .append('g')
+        .attr('class', 'lines')
+
+    lines.append('path')
+      .datum(function (d) { return d })
+      .attr('d', line)
+      .attr('stroke', function (d, i) { return c[i] })
+      .on('mouseover', hoverIn)
+      .on('mouseout', hoverOut)
   }
 
   function plotAxes (ctx, x, y) {
+    var bottomAxis = d3.axisBottom(x).ticks(d3.timeSaturday.every(1))
+      .tickFormat(d3.timeFormat('%d %b'))
+    var leftAxis = d3.axisLeft(y)
 
+    ctx.select('.x.axis')
+      .call(bottomAxis)
+      .selectAll('text')
+        .style('text-anchor', 'end')
+        .attr('dx', -6)
+        .attr('dy', 6)
+        .attr('transform', 'rotate(-45)')
+        .attr('opacity', 0)
+        .transition().duration(750)
+          .attr('opacity', 1)
+
+    ctx.select('.y.axis')
+      .transition().duration(750)
+        .call(leftAxis)
   }
 
   function calcXScale (data, dim, offset) {
-
+    return d3.scaleTime().domain([
+      d3.min(data, function (d) { return d[0]['date'] }),
+      d3.max(data, function (d) { return d[d.length - 1]['date'] })
+    ]).range([0, dim.w - offset.left - offset.right])
   }
 
   function calcYScale (data, dim, offset) {
+    return d3.scaleLinear().domain([0, d3.max(data, function (d) {
+      return d[d.length - 1]['leaguePoints']
+    })]).range([dim.h - offset.top - offset.bottom, 0])
+  }
 
+  function hoverIn () {
+    d3.select(this).classed('active', true)
+  }
+
+  function hoverOut () {
+    d3.select(this).classed('active', false)
   }
 
   function prepareData (data) {
@@ -97,7 +147,10 @@
       map.set(key, matches)
     })
 
-    return map
+    return map.values().sort(function (a, b) {
+      return d3.descending(a[a.length - 1]['leaguePoints'],
+        b[b.length - 1]['leaguePoints'])
+    })
   }
 
   function calcMatchOutcome (team, match, matches) {
