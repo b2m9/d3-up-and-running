@@ -6,8 +6,8 @@
 
   // Dimensions
   var dim = {
-    w: 800,
-    h: 550
+    w: 850,
+    h: 570
   }
   var offset = {
     left: 50,
@@ -49,16 +49,29 @@
       .y(function (d) { return y(d['leaguePoints']) })
       .curve(d3.curveStepAfter)
 
-    var lines = ctx.selectAll('.lines').data(data).enter()
+    var teams = ctx.selectAll('.teams').data(data).enter()
       .append('g')
-        .attr('class', 'lines')
+        .attr('class', 'teams')
 
-    lines.append('path')
+    teams.append('path')
       .datum(function (d) { return d })
+      .attr('class', 'team-path')
       .attr('d', line)
       .attr('stroke', function (d, i) { return c[i] })
-      .on('mouseover', hoverIn)
-      .on('mouseout', hoverOut)
+
+    teams.selectAll('circle').data(function (d) { return d })
+      .enter().append('circle')
+      .attr('class', 'team-circle')
+      .attr('cx', function (d) { return x(d['date']) })
+      .attr('cy', function (d) { return y(d['leaguePoints']) })
+      .attr('r', 3)
+      .attr('fill', function (d) {
+        var i = data.findIndex(function (val) {
+          if (val[0]['team'] === d['team']) return true
+        })
+
+        return c[i]
+      })
   }
 
   function plotAxes (ctx, x, y) {
@@ -93,14 +106,6 @@
     return d3.scaleLinear().domain([0, d3.max(data, function (d) {
       return d[d.length - 1]['leaguePoints']
     })]).range([dim.h - offset.top - offset.bottom, 0])
-  }
-
-  function hoverIn () {
-    d3.select(this).classed('active', true)
-  }
-
-  function hoverOut () {
-    d3.select(this).classed('active', false)
   }
 
   function prepareData (data) {
