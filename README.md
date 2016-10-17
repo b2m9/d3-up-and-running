@@ -8,3 +8,4 @@
 4. [D3 Visualization LiveLessons](https://www.safaribooksonline.com/library/view/d3-visualization-livelessons/9780134087153/)
 5. [Interactive Data Visualization with D3.js](https://www.safaribooksonline.com/library/view/interactive-data-visualization/9781457197765/)
 6. [Rapid D3.js](https://www.safaribooksonline.com/library/view/rapid-d3js/9781783554416/)
+7. [Intermediate d3.js](https://www.safaribooksonline.com/library/view/intermediate-d3js/9781491926635/)
