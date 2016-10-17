@@ -32,22 +32,51 @@
             padding-top: 20px;
         }
 
-        .team-path {
-            fill: none;
-            stroke-width: 1px;
+        .bar {
+            fill: #0B486B;
+            transition: fill 0.25s ease-out;
         }
 
-        .team-path--active {
-            stroke-width: 2px;
+        .bar:hover {
+            fill: #CFF09E;
         }
 
-        .team-circle {
-            stroke-width: 1px;
-            stroke: white;
+        .bar--high {
+            fill: #3B8686;
+        }
+
+        .tooltip {
+            position: absolute;
+            line-height: 1;
+            font-weight: bold;
+            font-size: 10px;
+            padding: 8px 10px;
+            background: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            border-radius: 2px;
+        }
+
+        .tooltip:after {
+            box-sizing: border-box;
+            display: inline;
+            font-size: 10px;
+            width: 100%;
+            line-height: 1;
+            color: rgba(0, 0, 0, 0.8);
+            content: "\25BC";
+            position: absolute;
+            text-align: center;
+            margin: -1px 0 0 0;
+            top: 100%;
+            left: 0;
         }
     </style>
 </head>
 <body>
+    <div id="tooltip" class="tooltip" style="opacity: 0">
+        <span id="name">Value:</span>
+        <span id="value">Value</span>
+    </div>
     <script src="node_modules/d3/build/d3.js"></script>
     <script src="01-bar-chart.js"></script>
 </body>
