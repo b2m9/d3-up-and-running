@@ -11,13 +11,17 @@
   }
   var offset = {
     left: 50,
-    top: 50,
+    top: 40,
     right: 20,
     bottom: 20
   }
 
   var svg = init(dim, offset)
   var data = []
+  var scale = {
+    x: null,
+    y: null
+  }
 
   d3.json(path, function (err, res) {
     if (err) throw err
@@ -28,11 +32,11 @@
   })
 
   function plot (ctx, data, dim, offset) {
-    var scaleX = calcXScale(data, dim, offset)
-    var scaleY = calcYScale(data, dim, offset)
+    scale.x = calcXScale(data, dim, offset)
+    scale.y = calcYScale(data, dim, offset)
 
-    plotAxes(ctx, scaleX, scaleY)
-    plotChart(ctx.select('.chart'), data, scaleX, scaleY,
+    plotAxes(ctx, scale.x, scale.y)
+    plotChart(ctx.select('.chart'), data, scale.x, scale.y,
       dim.h - offset.top - offset.bottom)
   }
 
@@ -45,9 +49,7 @@
       .attr('width', x.bandwidth())
       .attr('y', h)
       .attr('height', 0)
-      .on('mouseover', function (d, i) {
-        hoverIn(this, d)
-      })
+      .on('mouseover', function (d) { hoverIn(this, d) })
       .on('mouseout', hoverOut)
       .merge(bars)
         .transition()
@@ -100,7 +102,7 @@
 
     d3.select('#tooltip')
       .style('left', (dimBar.left - dimTip.width / 4) + 'px')
-      .style('top', (dimBar.top - dimTip.height - 10) + 'px')
+      .style('top', (window.scrollY + dimBar.top - dimTip.height - 10) + 'px')
       .transition().duration(250)
         .style('opacity', 1)
   }
@@ -111,9 +113,36 @@
         .style('opacity', 0)
   }
 
+  function sort () {
+    if (this.dataset.type === 'asc') {
+      d3.selectAll('.bar').sort(d3.ascending)
+        .transition().duration(750).delay(function (d, i) { return 50 * i })
+        .attr('x', function (d, i) { return scale.x(i) })
+    } else {
+      d3.selectAll('.bar').sort(d3.descending)
+        .transition().duration(750).delay(function (d, i) { return 50 * i })
+        .attr('x', function (d, i) { return scale.x(i) })
+    }
+  }
+
   function init (dim, offset) {
     d3.select('body').append('h1').text('A Beautiful Bar Chart')
     d3.select('body').append('div').attr('class', 'wrapper')
+
+    var controls = d3.select('.wrapper').append('div')
+      .attr('class', 'controls')
+
+    controls.append('button')
+      .attr('class', 'btn btn-default')
+      .attr('data-type', 'asc')
+      .on('click', sort)
+      .text('Sort ascending')
+
+    controls.append('button')
+      .attr('class', 'btn btn-default')
+      .attr('data-type', 'desc')
+      .on('click', sort)
+      .text('Sort descending')
 
     var svg = d3.select('.wrapper').append('svg')
       .attr('id', 'bar-chart')
@@ -123,7 +152,7 @@
 
     svg.append('g')
       .attr('class', 'y axis')
-      .attr('transform', 'translate(' + offset.left + ',' + offset.top + ')')
+      .attr('transform', 'translate(' + (offset.left - 3) + ',' + offset.top + ')')
 
     svg.append('g')
       .attr('class', 'x axis')
