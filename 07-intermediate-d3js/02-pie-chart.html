@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Intermediate D3.js</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <style>
+        html, body {
+            margin: 0;
+            width: 960px;
+            margin: 0 auto;
+            font-family: -apple-system, BlinkMacSystemFont,
+                "Segoe UI", "Roboto", "Oxygen",
+                "Ubuntu", "Cantarell", "Fira Sans",
+                "Droid Sans", "Helvetica Neue", sans-serif;
+        }
+
+        body {
+            padding-top: 20px;
+        }
+
+        .wrapper {
+            border: 1px solid #ccc;
+            height: 100%;
+            text-align: center;
+            padding: 15px;
+        }
+
+        h1 {
+            padding-top: 20px;
+        }
+
+        .tooltip {
+            position: absolute;
+            line-height: 1;
+            font-weight: bold;
+            font-size: 10px;
+            padding: 8px 10px;
+            background: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div id="tooltip" class="tooltip" style="opacity: 0">
+        <span id="name">Value:</span>
+        <span id="value">Value</span>
+    </div>
+    <script src="node_modules/d3/build/d3.js"></script>
+    <script src="02-pie-chart.js"></script>
+</body>
+</html>
