@@ -107,18 +107,6 @@
         .style('opacity', 0)
   }
 
-  function sort () {
-    if (this.dataset.type === 'asc') {
-      d3.selectAll('.bar').sort(d3.ascending)
-        .transition().duration(750).delay(function (d, i) { return 50 * i })
-        .attr('x', function (d, i) { return scale.x(i) })
-    } else {
-      d3.selectAll('.bar').sort(d3.descending)
-        .transition().duration(750).delay(function (d, i) { return 50 * i })
-        .attr('x', function (d, i) { return scale.x(i) })
-    }
-  }
-
   function prepData (data) {
     // Transforming data so it fits d3's new stack layout
     return d3.nest().key(function (d) { return d.x })
@@ -133,21 +121,6 @@
   function init (dim, offset) {
     d3.select('body').append('h1').text('A Beautiful Stacked Bar Chart')
     d3.select('body').append('div').attr('class', 'wrapper')
-
-    var controls = d3.select('.wrapper').append('div')
-      .attr('class', 'controls')
-
-    controls.append('button')
-      .attr('class', 'btn btn-default')
-      .attr('data-type', 'asc')
-      .on('click', sort)
-      .text('Sort ascending')
-
-    controls.append('button')
-      .attr('class', 'btn btn-default')
-      .attr('data-type', 'desc')
-      .on('click', sort)
-      .text('Sort descending')
 
     var svg = d3.select('.wrapper').append('svg')
       .attr('id', 'bar-chart')
