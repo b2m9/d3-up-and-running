@@ -9,3 +9,4 @@
 5. [Interactive Data Visualization with D3.js](https://www.safaribooksonline.com/library/view/interactive-data-visualization/9781457197765/)
 6. [Rapid D3.js](https://www.safaribooksonline.com/library/view/rapid-d3js/9781783554416/)
 7. [Intermediate d3.js](https://www.safaribooksonline.com/library/view/intermediate-d3js/9781491926635/)
+8. [Create Web Charts with D3](https://www.safaribooksonline.com/library/view/create-web-charts/9781484208656/)
