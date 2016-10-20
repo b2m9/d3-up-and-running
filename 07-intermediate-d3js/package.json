@@ -9,7 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "d3": "^4.2.2"
+    "d3": "^4.2.2",
+    "topojson": "^1.6.27"
   },
   "devDependencies": {
     "standard": "^8.0.0"
