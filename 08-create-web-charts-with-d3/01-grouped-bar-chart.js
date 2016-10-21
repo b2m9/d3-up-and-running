@@ -61,31 +61,14 @@
         .attr('x', function (d) { return x1(d.age) })
         .attr('y', h)
         .attr('height', 0)
-        .attr('fill', function (d, i) { return c(i)})
+        .attr('fill', function (d, i) { return c(i) })
+        .on('mouseover', function (d) { hoverIn(this, d) })
+        .on('mouseout', hoverOut)
         .transition()
           .duration(750)
           .delay(function (d, i) { return 50 * i })
           .attr('y', function (d) { return y(d.value) })
           .attr('height', function (d) { return h - y(d.value) })
-
-    // bars.enter().append('rect')
-    //   .attr('class', 'bar')
-    //   .attr('x', function (d, i) { return x(i) })
-    //   .attr('width', x.bandwidth())
-    //   .attr('y', h)
-    //   .attr('height', 0)
-    //   // .on('mouseover', function (d) { hoverIn(this, d) })
-    //   // .on('mouseout', hoverOut)
-    //   .merge(bars)
-    //     .transition()
-    //       .duration(750)
-    //       .delay(function (d, i) { return 25 * i })
-    //       .attr('y', function (d) { return y(d) })
-    //       .attr('height', function (d) { return h - y(d) })
-    //       .on('end', function () {
-    //         d3.select(this)
-    //           .classed('bar--high', function (d) { return (d >= 20) })
-    //       })
   }
 
   function plotAxes (ctx, x, y) {
@@ -127,56 +110,30 @@
     ])
   }
 
-  // function hoverIn (ctx, val) {
-  //   var dimBar = ctx.getBoundingClientRect()
-  //
-  //   d3.select('#value').text(val)
-  //
-  //   var dimTip = document.getElementById('tooltip').getBoundingClientRect()
-  //
-  //   d3.select('#tooltip')
-  //     .style('left', (dimBar.left - dimTip.width / 4) + 'px')
-  //     .style('top', (window.scrollY + dimBar.top - dimTip.height - 10) + 'px')
-  //     .transition().duration(250)
-  //       .style('opacity', 1)
-  // }
-  //
-  // function hoverOut () {
-  //   d3.select('#tooltip')
-  //     .transition().duration(250)
-  //       .style('opacity', 0)
-  // }
-  //
-  // function sort () {
-  //   if (this.dataset.type === 'asc') {
-  //     d3.selectAll('.bar').sort(d3.ascending)
-  //       .transition().duration(750).delay(function (d, i) { return 50 * i })
-  //       .attr('x', function (d, i) { return scale.x(i) })
-  //   } else {
-  //     d3.selectAll('.bar').sort(d3.descending)
-  //       .transition().duration(750).delay(function (d, i) { return 50 * i })
-  //       .attr('x', function (d, i) { return scale.x(i) })
-  //   }
-  // }
+  function hoverIn (ctx, val) {
+    var dimBar = ctx.getBoundingClientRect()
+
+    d3.select('#name').text(val.age + ': ')
+    d3.select('#value').text(d3.format(',.4r')(val.value))
+
+    var dimTip = document.getElementById('tooltip').getBoundingClientRect()
+
+    d3.select('#tooltip')
+      .style('left', (dimBar.left - dimTip.width / 2 + dimBar.width / 2) + 'px')
+      .style('top', (window.scrollY + dimBar.top - dimTip.height - 10) + 'px')
+      .transition().duration(250)
+        .style('opacity', 1)
+  }
+
+  function hoverOut () {
+    d3.select('#tooltip')
+      .transition().duration(250)
+        .style('opacity', 0)
+  }
 
   function init (dim, margin, callback) {
     d3.select('body').append('h1').text('Population by Age Group')
     d3.select('body').append('div').attr('class', 'wrapper')
-
-    var controls = d3.select('.wrapper').append('div')
-      .attr('class', 'controls')
-
-    controls.append('button')
-      .attr('class', 'btn btn-default')
-      .attr('data-type', 'asc')
-      // .on('click', sort)
-      .text('Sort ascending')
-
-    controls.append('button')
-      .attr('class', 'btn btn-default')
-      .attr('data-type', 'desc')
-      // .on('click', sort)
-      .text('Sort descending')
 
     var svg = d3.select('.wrapper').append('svg')
       .attr('id', 'bar-chart')
@@ -186,7 +143,8 @@
 
     svg.append('g')
       .attr('class', 'y axis')
-      .attr('transform', 'translate(' + (margin.left - 3) + ',' + margin.top + ')')
+      .attr('transform', 'translate(' + (margin.left - 3) + ',' +
+        margin.top + ')')
 
     svg.append('g')
       .attr('class', 'x axis')
