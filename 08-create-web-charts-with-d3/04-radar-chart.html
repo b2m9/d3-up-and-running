@@ -59,13 +59,27 @@
             border-radius: 2px;
             pointer-events: none;
         }
+
+        .tooltip:after {
+            box-sizing: border-box;
+            display: inline;
+            font-size: 10px;
+            width: 100%;
+            line-height: 1;
+            color: rgba(0, 0, 0, 0.8);
+            content: "\25BC";
+            position: absolute;
+            text-align: center;
+            margin: -1px 0 0 0;
+            top: 100%;
+            left: 0;
+        }
     </style>
 </head>
 <body>
     <div id="tooltip" class="tooltip" style="opacity: 0">
-        <p id="country"></p>
-        <p id="income"></p>
-        <p id="expense"></p>
+        <span id="name"></span>
+        <span id="value"></span>
     </div>
     <script src="node_modules/d3/build/d3.js"></script>
     <script src="04-radar-chart.js"></script>

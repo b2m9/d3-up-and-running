@@ -61,6 +61,8 @@
       .attr('stroke', 'white')
       .attr('stroke-width', 1)
       .attr('fill', function (d) { return colour(d.key) })
+      .on('mouseover', function (d) { hoverIn(this, d) })
+      .on('mouseout', hoverOut)
   }
 
   function plotAxes (ctx, radius, angle, data) {
@@ -132,18 +134,16 @@
   }
 
   function hoverIn (ctx, val) {
-    var dimArc = ctx.getBoundingClientRect()
+    var dimPt = ctx.getBoundingClientRect()
 
-    d3.select('#country').text(val.data['country'])
-    d3.select('#income').text(d3.format(',.4r')(val.data['income']))
-    d3.select('#expense').text(d3.format(',.4r')(val.data['expense']))
+    d3.select('#name').text(val.values['section'] + ': ')
+    d3.select('#value').text(val.data)
 
     var dimTip = document.getElementById('tooltip').getBoundingClientRect()
 
     d3.select('#tooltip')
-      .style('left', (dimArc.left + dimArc.width / 2 - dimTip.width / 2) + 'px')
-      .style('top', (window.scrollY + dimArc.top + dimArc.height / 2 -
-        dimTip.height / 2) + 'px')
+      .style('left', (dimPt.left + dimPt.width / 2 - dimTip.width / 2) + 'px')
+      .style('top', (window.scrollY + dimPt.top - dimTip.height - 10) + 'px')
       .transition().duration(250)
         .style('opacity', 1)
   }
@@ -165,11 +165,11 @@
       .attr('height', dim.h)
 
     svg.append('g')
-      .attr('class', 'chart')
+      .attr('class', 'axis')
       .attr('transform', 'translate(' + (dim.w / 2) + ',' + (dim.h / 2) + ')')
 
     svg.append('g')
-      .attr('class', 'axis')
+      .attr('class', 'chart')
       .attr('transform', 'translate(' + (dim.w / 2) + ',' + (dim.h / 2) + ')')
 
     setTimeout(function () { callback(null, svg) }, 250)
