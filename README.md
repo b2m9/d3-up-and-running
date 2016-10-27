@@ -13,3 +13,4 @@
 9. [D3 by Example](https://www.safaribooksonline.com/library/view/d3js-by-example/9781785280085/)
 10. [Interactive Data Visualization for the Web](https://www.safaribooksonline.com/library/view/interactive-data-visualization/9781449340223/)
 11. [Getting Started with D3](https://www.safaribooksonline.com/library/view/getting-started-with/9781449328788/)
+12. [Practical D3.js](https://www.safaribooksonline.com/library/view/practical-d3js/9781484219287/)

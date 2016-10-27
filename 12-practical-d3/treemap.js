@@ -23,7 +23,7 @@
       plot(ctx, data)
     })
 
-  function plot (ctx, data, dim) {
+  function plot (ctx, data) {
     plotChart(ctx.select('.chart'), data)
   }
 
@@ -60,7 +60,8 @@
 
     d3.select('#parent').text(val.parent.data.key)
     d3.select('#item').text(val.data.key)
-    d3.select('#value').text(d3.format(',.2r')(val.data.budget + '000') + ' EUR')
+    d3.select('#value').text(d3.format(',.2r')(val.data.budget + '000') +
+      ' EUR')
 
     var dimTip = document.getElementById('tooltip').getBoundingClientRect()
 
