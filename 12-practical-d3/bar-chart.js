@@ -15,7 +15,7 @@
   var offset = {
     left: 20,
     top: 20,
-    right: 20,
+    right: 45,
     bottom: 40
   }
   var scale = {
@@ -43,6 +43,7 @@
     scale.c = calcCScale(keys)
 
     plotAxis(ctx, scale.x)
+    plotLegend(ctx.select('.legend'), keys, scale.c)
     plotChart(ctx.select('.chart'), data, scale.x, scale.y, scale.c)
   }
 
@@ -68,6 +69,40 @@
       .call(bottomAxis)
         .transition().duration(750).delay(500)
         .attr('opacity', 1)
+  }
+
+  function plotLegend (ctx, data, c) {
+    var entries = ctx.selectAll('.entry').data(data)
+      .enter().append('g')
+        .attr('class', 'entry')
+        .on('mouseover', function (d) { filter(d) })
+
+    entries.append('rect')
+      .attr('class', 'legend-rect')
+      .attr('x', 0)
+      .attr('y', function (d, i) { return i * 16 })
+      .attr('width', 10)
+      .attr('height', 10)
+      .attr('fill', function (d, i) { return c(i) })
+
+    entries.append('text')
+      .attr('class', 'legend-text')
+      .attr('x', 13)
+      .attr('y', function (d, i) { return i * 16 })
+      .text(function (d) { return d })
+      .attr('dy', 9)
+  }
+
+  function hoverIn () {}
+
+  function hoverOut () {}
+
+  function filter () {
+
+  }
+
+  function sort () {
+    debugger
   }
 
   function calcXScale (data, w) {
@@ -112,6 +147,21 @@
     d3.select('body').append('h1').text('Gender Gap Index 2014')
     d3.select('body').append('div').attr('class', 'wrapper')
 
+    var controls = d3.select('.wrapper').append('div')
+      .attr('class', 'controls')
+
+    controls.append('button')
+      .attr('class', 'btn btn-default')
+      .attr('data-type', 'asc')
+      .on('click', sort)
+      .text('Sort ascending')
+
+    controls.append('button')
+      .attr('class', 'btn btn-default')
+      .attr('data-type', 'desc')
+      .on('click', sort)
+      .text('Sort descending')
+
     var svg = d3.select('.wrapper').append('svg')
       .attr('id', 'barchart')
       .attr('class', 'barchart')
@@ -122,6 +172,10 @@
       .attr('class', 'x axis')
       .attr('transform', 'translate(' + offset.left + ',' +
         (dim.h - offset.bottom) + ')')
+
+    svg.append('g')
+      .attr('class', 'legend')
+      .attr('transform', 'translate(' + (dim.w - 160) + ',' + offset.top + ')')
 
     svg.append('g')
       .attr('class', 'chart')
