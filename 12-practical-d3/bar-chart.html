@@ -48,9 +48,48 @@
         .entry {
             cursor: pointer;
         }
+
+        .bar-rect {
+            stroke: white;
+            stroke-width: 1px;
+        }
+
+        .bar-rect:hover {
+            stroke: #666;
+            stroke-width: 1px;
+        }
+
+        .tooltip {
+            position: absolute;
+            line-height: 1;
+            font-weight: bold;
+            font-size: 10px;
+            padding: 8px 10px;
+            background: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            border-radius: 2px;
+        }
+
+        .tooltip:before {
+            box-sizing: border-box;
+            display: inline;
+            font-size: 10px;
+            line-height: 1;
+            color: rgba(0, 0, 0, 0.8);
+            content: "\25C0";
+            position: absolute;
+            text-align: center;
+            margin: -1px 0 0 0;
+            top: 9px;
+            left: -7px;
+        }
     </style>
 </head>
 <body>
+    <div id="tooltip" class="tooltip" style="opacity: 0">
+        <span id="name"></span>
+        <span id="value"></span>
+    </div>
     <script src="node_modules/d3/build/d3.js"></script>
     <script src="bar-chart.js"></script>
 </body>

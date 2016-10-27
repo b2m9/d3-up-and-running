@@ -57,8 +57,10 @@
       .attr('x', 0)
       .attr('y', function (d, i) { return y(i) })
       .attr('width', function (d) { return x(d.score) })
-      .attr('height', y.bandwidth() - 2)
+      .attr('height', y.bandwidth() - 1)
       .attr('fill', function (d) { return c(d.region) })
+      .on('mouseover', function (d) { hoverIn(this, d) })
+      .on('mouseout', hoverOut)
   }
 
   function plotAxis (ctx, x) {
@@ -93,9 +95,27 @@
       .attr('dy', 9)
   }
 
-  function hoverIn () {}
+  function hoverIn (ctx, val) {
+    var dimBar = ctx.getBoundingClientRect()
 
-  function hoverOut () {}
+    d3.select('#name').text(val.key + ': ')
+    d3.select('#value').text(val.score)
+
+    var dimTip = document.getElementById('tooltip').getBoundingClientRect()
+
+    d3.select('#tooltip')
+      .style('left', (dimBar.left + dimBar.width + 9) + 'px')
+      .style('top', (window.scrollY + dimBar.top - dimTip.height / 2 + 2) +
+        'px')
+      .transition().duration(250)
+        .style('opacity', 1)
+  }
+
+  function hoverOut () {
+    d3.select('#tooltip')
+      .transition().duration(250)
+        .style('opacity', 0)
+  }
 
   function filter () {
 
