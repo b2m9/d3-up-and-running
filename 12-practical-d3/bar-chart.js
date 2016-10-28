@@ -134,7 +134,19 @@
   }
 
   function sort () {
-    debugger
+    if (this.dataset.type === 'asc') {
+      d3.selectAll('.bar').sort(function (a, b) { return a.score - b.score })
+        .select('rect').transition()
+          .duration(750)
+          .delay(function (d, i) { return i * 10 })
+          .attr('y', function (d, i) { return scale.y(i) })
+    } else {
+      d3.selectAll('.bar').sort(function (a, b) { return b.score - a.score })
+        .select('rect').transition()
+          .duration(750)
+          .delay(function (d, i) { return i * 10 })
+          .attr('y', function (d, i) { return scale.y(i) })
+    }
   }
 
   function calcXScale (data, w) {
