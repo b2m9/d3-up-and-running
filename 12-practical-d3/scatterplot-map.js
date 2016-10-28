@@ -58,8 +58,8 @@
       .attr('cy', function (d) { return y(d.lat) })
       .attr('r', function (d) { return r(d.score) })
       .attr('fill', function (d) { return c(d.region) })
-      // .on('mouseover', function (d) { hoverIn(this, d) })
-      // .on('mouseout', hoverOut)
+      .on('mouseover', function (d) { hoverIn(this, d) })
+      .on('mouseout', hoverOut)
   }
 
   function plotLegend (ctx, data, c) {
@@ -87,14 +87,14 @@
   function hoverIn (ctx, val) {
     var dimBar = ctx.getBoundingClientRect()
 
-    d3.select('#name').text(val.key + ': ')
+    d3.select('#name').text(val.name + ': ')
     d3.select('#value').text(val.score)
 
     var dimTip = document.getElementById('tooltip').getBoundingClientRect()
 
     d3.select('#tooltip')
-      .style('left', (dimBar.left + dimBar.width + 9) + 'px')
-      .style('top', (window.scrollY + dimBar.top - dimTip.height / 2 + 2) +
+      .style('left', (dimBar.left + dimBar.width / 2 - dimTip.width / 2) + 'px')
+      .style('top', (window.scrollY + dimBar.top - dimTip.height - 8) +
         'px')
       .transition().duration(250)
         .style('opacity', 1)
