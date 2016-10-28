@@ -77,7 +77,7 @@
     var entries = ctx.selectAll('.entry').data(data)
       .enter().append('g')
         .attr('class', 'entry')
-        .on('mouseover', function (d) { filter(d) })
+        .on('click', function (d) { filter(d) })
 
     entries.append('rect')
       .attr('class', 'legend-rect')
@@ -117,8 +117,20 @@
         .style('opacity', 0)
   }
 
-  function filter () {
-
+  function filter (key) {
+    if (d3.select('.faded').node() &&
+      d3.select('.selected').data()[0].region === key) {
+      d3.selectAll('.bar')
+        .classed('faded', false)
+        .classed('selected', false)
+    } else {
+      d3.selectAll('.bar').filter(function (d) { return d.region !== key })
+        .classed('faded', true)
+        .classed('selected', false)
+      d3.selectAll('.bar').filter(function (d) { return d.region === key })
+        .classed('faded', false)
+        .classed('selected', true)
+    }
   }
 
   function sort () {
