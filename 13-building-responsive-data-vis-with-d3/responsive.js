@@ -16,17 +16,20 @@
   }
   var scale = {
     x: null,
-    y: null,
-    c: null
+    y: null
   }
+  var data
+  var svg
 
   d3.queue()
     .defer(init, width, height, offset)
     .defer(d3.json, path)
-    .await(function (err, ctx, data) {
+    .await(function (err, ctx, res) {
       if (err) throw err
 
-      plot(ctx, data, width, height, offset)
+      svg = ctx
+      data = res
+      plot(ctx, res, width, height, offset)
     })
 
   function plot (ctx, data, w, h, offset) {
@@ -43,13 +46,13 @@
 
     bars.enter().append('rect')
       .attr('class', 'bar')
-      .attr('x', function (d, i) { return x(i) })
-      .attr('width', x.bandwidth() - 1)
       .attr('y', h)
       .attr('height', 0)
       .on('mouseover', function (d) { hoverIn(this, d) })
       .on('mouseout', hoverOut)
       .merge(bars)
+        .attr('x', function (d, i) { return x(i) })
+        .attr('width', x.bandwidth() - 1)
         .transition()
           .duration(750)
           .delay(function (d, i) { return 25 * i })
@@ -85,6 +88,17 @@
       .range([h - offset.top - offset.bottom, 0])
   }
 
+  function resize () {
+    width = parseInt(d3.select('.svg').style('width'), 10)
+    height = width * 0.5
+    svg.attr('width', width).attr('height', height)
+    svg.select('.x.axis')
+      .attr('transform', 'translate(' + offset.left + ',' +
+        (height - offset.bottom) + ')')
+
+    plot(svg, data, width, height, offset)
+  }
+
   function hoverIn (ctx, val) {
     var dimBar = ctx.getBoundingClientRect()
 
@@ -118,6 +132,8 @@
   }
 
   function init (w, h, offset, callback) {
+    d3.select(window).on('resize', resize)
+
     var controls = d3.select('.controls')
 
     controls.append('button')
