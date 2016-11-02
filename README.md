@@ -15,3 +15,4 @@
 11. [Getting Started with D3](https://www.safaribooksonline.com/library/view/getting-started-with/9781449328788/)
 12. [Practical D3.js](https://www.safaribooksonline.com/library/view/practical-d3js/9781484219287/)
 13. [Building Responsive Data Visualizations with D3.js](https://www.safaribooksonline.com/library/view/building-responsive-data/9781784394509/)
+14. [Learning Responsive Data Visualizations](https://www.safaribooksonline.com/library/view/learning-responsive-data/9781785883781/)
