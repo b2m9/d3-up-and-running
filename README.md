@@ -17,3 +17,4 @@
 13. [Building Responsive Data Visualizations with D3.js](https://www.safaribooksonline.com/library/view/building-responsive-data/9781784394509/)
 14. [Learning Responsive Data Visualizations](https://www.safaribooksonline.com/library/view/learning-responsive-data/9781785883781/)
 15. [Data Visualization with D3.js Cookbook](https://www.safaribooksonline.com/library/view/data-visualization-with/9781782162162/)
+16. [D3.js in Action](https://www.safaribooksonline.com/library/view/d3js-in-action/9781617292118/)
