@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <title>D3 in Action</title>
+    <style>
+        html, body {
+            font-family: -apple-system, BlinkMacSystemFont,
+                "Segoe UI", "Roboto", "Oxygen",
+                "Ubuntu", "Cantarell", "Fira Sans",
+                "Droid Sans", "Helvetica Neue", sans-serif;
+        }
+
+        body {
+            padding-top: 20px;
+        }
+
+        .wrapper {
+            border: 1px solid #ccc;
+            text-align: center;
+            padding: 20px;
+            margin-bottom: 10px;
+        }
+
+        .svg {
+            margin: 0 auto;
+        }
+
+        h1 {
+            padding-top: 20px;
+        }
+
+        .controls > .btn {
+            margin-left: 5px;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body class="container">
+    <h1>Streamgraph</h1>
+    <div class="wrapper">
+        <div class="controls"></div>
+        <div class="svg"></div>
+    </div>
+    <script src="node_modules/d3/build/d3.js"></script>
+    <script src="streamgraph.js"></script>
+</body>
+</html>
